@@ -1,16 +1,17 @@
 import { db } from '@/config/firebaseConfig';
 import { useAuth } from '@/contexts/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { doc, getDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import {
-  ActivityIndicator,
-  Alert,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
+    ActivityIndicator,
+    Alert,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View
 } from 'react-native';
 
 interface UserProfile {
@@ -20,10 +21,11 @@ interface UserProfile {
   createdAt?: string;
 }
 
-export default function HomeScreen() {
+export default function ProfileScreen() {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const { user, signOut } = useAuth();
+  const router = useRouter();
 
   const fetchUserProfile = async () => {
     if (!user) return;
@@ -87,7 +89,7 @@ export default function HomeScreen() {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Profil Pengguna</Text>
-        <Text style={styles.headerSubtitle}>Informasi akun students Anda</Text>
+        <Text style={styles.headerSubtitle}>Informasi akun Mahasiswa Anda</Text>
       </View>
 
       <View style={styles.profileContainer}>
@@ -134,6 +136,15 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
+
+        {/* View All Students Button */}
+        <TouchableOpacity 
+          style={styles.viewAllButton}
+          onPress={() => router.push('/students')}
+        >
+          <Ionicons name="people" size={20} color="#fff" />
+          <Text style={styles.viewAllText}>Lihat Semua Data</Text>
+        </TouchableOpacity>
 
         {/* Logout Button */}
         <TouchableOpacity 
@@ -251,6 +262,23 @@ const styles = StyleSheet.create({
     height: 1,
     backgroundColor: '#2C3E50',
     marginVertical: 4,
+  },
+  viewAllButton: {
+    flexDirection: 'row',
+    backgroundColor: '#1A2332',
+    borderWidth: 2,
+    borderColor: '#00BCD4',
+    paddingVertical: 16,
+    borderRadius: 8,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginBottom: 12,
+  },
+  viewAllText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '700',
   },
   logoutButton: {
     flexDirection: 'row',
