@@ -7,7 +7,6 @@ export const StorageKeys = {
 };
 
 export const StorageService = {
-  // Save user data
   setUserId: async (userId: string) => {
     await AsyncStorage.setItem(StorageKeys.USER_ID, userId);
   },
@@ -32,7 +31,6 @@ export const StorageService = {
     return await AsyncStorage.getItem(StorageKeys.AUTH_TOKEN);
   },
   
-  // Clear all user data
   clearUserData: async () => {
     await AsyncStorage.multiRemove([
       StorageKeys.USER_ID,
@@ -41,7 +39,6 @@ export const StorageService = {
     ]);
   },
   
-  // Check if user is logged in
   isLoggedIn: async (): Promise<boolean> => {
     const userId = await AsyncStorage.getItem(StorageKeys.USER_ID);
     return !!userId;
