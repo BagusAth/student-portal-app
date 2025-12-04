@@ -26,11 +26,9 @@ function RootLayoutNav() {
     });
 
     if (!user && inAuthGroup) {
-      // Redirect to login if not authenticated
       console.log('Redirecting to login - user not authenticated');
       router.replace('/login');
     } else if (user && !inAuthGroup) {
-      // Redirect to profile if authenticated and not already in auth group
       console.log('Redirecting to profile - user authenticated');
       router.replace('/profile');
     }

@@ -41,7 +41,6 @@ export default function LoginScreen() {
   };
 
   const handleAuth = async () => {
-    // Validate email
     if (!validateEmail(email)) {
       Alert.alert('Error', 'Email tidak valid. Email harus mengandung karakter @');
       return;
@@ -52,8 +51,6 @@ export default function LoginScreen() {
         Alert.alert('Error', 'Mohon isi semua field');
         return;
       }
-
-      // Validate password untuk sign up
       const passwordValidation = validatePassword(password);
       if (!passwordValidation.isValid) {
         Alert.alert('Error', passwordValidation.message);
@@ -74,7 +71,6 @@ export default function LoginScreen() {
       } else {
         await signIn(email, password);
       }
-      // Navigation akan ditangani oleh AuthContext dan _layout
     } catch (error: any) {
       Alert.alert('Error', error.message || 'Autentikasi gagal');
     } finally {

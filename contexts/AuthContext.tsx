@@ -25,11 +25,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Listen to auth state changes
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         setUser(firebaseUser);
-        // Save user data to local storage
         await StorageService.setUserId(firebaseUser.uid);
         if (firebaseUser.email) {
           await StorageService.setUserEmail(firebaseUser.email);
@@ -47,7 +45,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signIn = async (email: string, password: string) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      // User data will be saved by onAuthStateChanged listener
     } catch (error: any) {
       console.error('Sign in error:', error);
       throw new Error(error.message || 'Failed to sign in');
@@ -57,16 +54,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signUp = async (email: string, password: string, name: string, nim: string) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      
-      // Save user profile to Firestore
       await setDoc(doc(db, 'students', userCredential.user.uid), {
         name: name,
         nim: nim,
         email: email,
         createdAt: new Date().toISOString(),
       });
-      
-      // User data will be saved by onAuthStateChanged listener
+
     } catch (error: any) {
       console.error('Sign up error:', error);
       throw new Error(error.message || 'Failed to sign up');
